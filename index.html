@@ -294,6 +294,24 @@
         }
       }
 
+      #intro-overlay {
+        position: fixed;
+        inset: 0;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.7s ease;
+      }
+      #intro-text {
+        white-space: pre-wrap;
+        text-align: center;
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #00f6ff;
+      }
+
       .timeline-content {
         background: rgba(255, 255, 255, 0.03);
         padding: 1rem 1.5rem;
@@ -363,7 +381,11 @@
       };
     </script>
   </head>
-  <body class="bg-background text-primary">
+  <body class="opacity-0 overflow-hidden transition-opacity duration-700">
+    <div id="intro-overlay">
+      <pre id="intro-text"></pre>
+    </div>
+
     <div id="spotlight"></div>
     <div
       id="cursor-wisp"
@@ -592,7 +614,78 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
     <script>
+      function playIntroThenLoad() {
+        const introOverlay = document.getElementById("intro-overlay");
+        const introTextEl = document.getElementById("intro-text");
+
+        const introLines = [
+          "Initializing digital realm...",
+          "Syncing neural interfaces...",
+          "Decrypting cinematic identity...",
+          "Welcome, Varghese Shibu.",
+        ];
+
+        let currentLine = 0;
+
+        function typeLine() {
+          if (currentLine >= introLines.length) {
+            introOverlay.style.opacity = "0";
+            setTimeout(() => {
+              introOverlay.remove();
+              document.body.style.overflow = "auto";
+              document.body.style.opacity = "1";
+              // Force scroll to top TWICE to ensure it works on mobile browsers
+              window.scrollTo({ top: 0, behavior: "auto" });
+              requestAnimationFrame(() => {
+                window.scrollTo({ top: 0, behavior: "auto" });
+              });
+
+              requestAnimationFrame(mainLogic);
+            }, 800);
+            return;
+          }
+
+          const line = introLines[currentLine];
+          let i = 0;
+          const interval = setInterval(() => {
+            introTextEl.textContent += line[i];
+            i++;
+            if (i >= line.length) {
+              introTextEl.textContent += "\n";
+              clearInterval(interval);
+              currentLine++;
+              setTimeout(typeLine, 700);
+            }
+          }, 50);
+        }
+
+        setTimeout(() => {
+          document.body.style.opacity = "1";
+          typeLine();
+          sessionStorage.setItem("introPlayed", "true");
+        }, 300);
+      }
+
       document.addEventListener("DOMContentLoaded", () => {
+        if (sessionStorage.getItem("introPlayed")) {
+          document.getElementById("intro-overlay").remove();
+          document.body.style.overflow = "auto";
+          document.body.style.opacity = "1";
+          // Force scroll to top TWICE to ensure it works on mobile browsers
+          window.scrollTo({ top: 0, behavior: "auto" });
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, behavior: "auto" });
+          });
+          mainLogic(); // 🔁 Skip intro, directly launch main logic
+        } else {
+          playIntroThenLoad(); // 🔁 Play intro, then launch main logic
+        }
+      });
+
+      function mainLogic() {
+        console.log("main");
+        window.scrollTo(0, 0);
+
         const DATA = {
           name: "Varghese Shibu",
           skills: [
@@ -703,7 +796,7 @@
               clearInterval(interval);
               textElement.innerHTML = originalText
                 .split("")
-                .map((char) => `<span>${char}</span>`)
+                .map((char) => `<span class="flicker-text">${char}</span>`)
                 .join("");
             }
 
@@ -745,13 +838,12 @@
           el.className = `timeline-item reveal`;
 
           // Add responsive wrapper
-          el.innerHTML = `
-    <div class="timeline-content p-6 bg-white/5 rounded-xl shadow-md transition-all duration-500 ease-out">
-      <h3 class="text-xl font-bold font-display">${job.role}</h3>
-      <p class="text-accent font-semibold">${job.company}</p>
-      <p class="text-secondary text-sm mt-1 mb-3 font-mono">${job.period}</p>
-      <p class="text-secondary text-sm leading-relaxed">${job.description}</p>
-    </div>`;
+          el.innerHTML = `<div class="timeline-content p-6 bg-white/5 rounded-xl shadow-md transition-all duration-500 ease-out">
+                <h3 class="text-xl font-bold font-display">${job.role}</h3>
+                <p class="text-accent font-semibold">${job.company}</p>
+                <p class="text-secondary text-sm mt-1 mb-3 font-mono">${job.period}</p>
+                <p class="text-secondary text-sm leading-relaxed">${job.description}</p>
+                </div>`;
 
           experienceTimeline.appendChild(el);
         });
@@ -1084,54 +1176,100 @@
             synth.triggerRelease(Tone.now() + 0.1)
           );
         });
-      });
 
-      // Mouse Parallax
-      document.addEventListener("mousemove", (e) => {
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const moveX = (e.clientX - centerX) / centerX;
-        const moveY = (e.clientY - centerY) / centerY;
+        // Mouse Parallax
+        document.addEventListener("mousemove", (e) => {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const moveX = (e.clientX - centerX) / centerX;
+          const moveY = (e.clientY - centerY) / centerY;
 
-        document.querySelectorAll("[data-depth]").forEach((el) => {
-          const depth = parseFloat(el.getAttribute("data-depth"));
-          const x = moveX * depth * 30;
-          const y = moveY * depth * 30;
+          document.querySelectorAll("[data-depth]").forEach((el) => {
+            const depth = parseFloat(el.getAttribute("data-depth"));
+            const x = moveX * depth * 30;
+            const y = moveY * depth * 30;
 
-          el.style.setProperty(
-            "transform",
-            `translate3d(${x}px, ${y}px, 0) ` + el.dataset.originalTransform ||
-              ""
-          );
+            el.style.setProperty(
+              "transform",
+              `translate3d(${x}px, ${y}px, 0) ` +
+                el.dataset.originalTransform || ""
+            );
+          });
         });
-      });
 
-      document
-        .getElementById("contact-form")
-        .addEventListener("submit", (e) => {
-          e.preventDefault();
-          alert("Message sent! [Note: backend not connected yet]");
+        document
+          .getElementById("contact-form")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("Message sent! [Note: backend not connected yet]");
+          });
+        const menuToggle = document.getElementById("menu-toggle");
+        const mobileMenu = document.getElementById("mobile-menu");
+        const menuClose = document.getElementById("menu-close");
+
+        menuToggle.addEventListener("click", () => {
+          mobileMenu.classList.remove("translate-x-full");
+          mobileMenu.classList.add("translate-x-0");
         });
-      const menuToggle = document.getElementById("menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
-      const menuClose = document.getElementById("menu-close");
 
-      menuToggle.addEventListener("click", () => {
-        mobileMenu.classList.remove("translate-x-full");
-        mobileMenu.classList.add("translate-x-0");
-      });
-
-      menuClose.addEventListener("click", () => {
-        mobileMenu.classList.add("translate-x-full");
-        mobileMenu.classList.remove("translate-x-0");
-      });
-      // Close menu on link click
-      document.querySelectorAll("#mobile-menu a").forEach((link) => {
-        link.addEventListener("click", () => {
+        menuClose.addEventListener("click", () => {
           mobileMenu.classList.add("translate-x-full");
           mobileMenu.classList.remove("translate-x-0");
         });
-      });
+        // Close menu on link click
+        document.querySelectorAll("#mobile-menu a").forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("translate-x-full");
+            mobileMenu.classList.remove("translate-x-0");
+          });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+          const introLines = [
+            "Initializing digital realm...",
+            "Syncing neural interfaces...",
+            "Decrypting cinematic identity...",
+            "Welcome, Varghese Shibu.",
+          ];
+
+          const introTextEl = document.getElementById("intro-text");
+          let currentLine = 0;
+
+          function typeLine() {
+            if (currentLine >= introLines.length) {
+              // Fade out intro and reveal site
+              document.getElementById("intro-overlay").style.opacity = "0";
+              setTimeout(() => {
+                document.getElementById("intro-overlay").remove();
+                document.body.classList.remove("opacity-0");
+                document.body.classList.remove("overflow-hidden");
+
+                // Now trigger rest of animations
+                decodeEffect(); // your name animation
+                animateParticles(); // if needed
+                startObservers(); // if you use IntersectionObserver
+              }, 600);
+              return;
+            }
+
+            let line = introLines[currentLine];
+            let i = 0;
+            let interval = setInterval(() => {
+              introTextEl.textContent += line[i];
+              i++;
+              if (i >= line.length) {
+                introTextEl.textContent += "\n";
+                clearInterval(interval);
+                currentLine++;
+                setTimeout(typeLine, 700);
+              }
+            }, 50);
+          }
+
+          // Start typing after short delay
+          setTimeout(typeLine, 500);
+        });
+      }
     </script>
   </body>
 </html>
