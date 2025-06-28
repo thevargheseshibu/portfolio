@@ -329,6 +329,19 @@
           padding-top: 4.5rem; /* or whatever your navbar height is */
         }
       }
+
+      @media (max-width: 768px) {
+        .navbar {
+          background-color: rgba(255, 255, 255, 0.3); /* light glass */
+        }
+      }
+
+      /* Dark background on desktop */
+      @media (min-width: 769px) {
+        .navbar {
+          background-color: rgba(0, 0, 0, 0.6); /* dark glass */
+        }
+      }
     </style>
 
     <script>
@@ -352,7 +365,7 @@
   </head>
   <body class="bg-background text-primary">
     <div id="spotlight"></div>
-    <div id="cursor-wisp"></div>
+    <div id="cursor-wisp" class="hidden sm:block fixed w-6 h-6 rounded-full bg-white/20 pointer-events-none z-50"></div>
 
     <canvas
       id="particle-canvas"
@@ -364,81 +377,46 @@
     <header>
       <nav
         id="navbar"
-        class="fixed top-0 left-0 right-0 bg-black/60 backdrop-blur-md shadow-lg z-50"
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-transparent md:bg-black/60 md:backdrop-blur-md md:shadow-lg"
       >
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div class="flex items-center justify-between h-24">
-            <!-- Logo -->
-            <a
-              href="#hero"
-              class="text-3xl font-bold font-display text-white"
-              data-magnetic
-              >VS</a
-            >
+        <!-- Logo or Name -->
+        <div class="text-xl font-bold text-white">Varghese</div>
 
-            <!-- Desktop Menu -->
-            <div class="hidden md:flex items-center space-x-8">
-              <a
-                href="#skills"
-                class="text-secondary hover:text-primary transition-colors"
-                data-magnetic
-                >Skills</a
-              >
-              <a
-                href="#projects"
-                class="text-secondary hover:text-primary transition-colors"
-                data-magnetic
-                >Projects</a
-              >
-              <a
-                href="#experience"
-                class="text-secondary hover:text-primary transition-colors"
-                data-magnetic
-                >Experience</a
-              >
-              <a
-                href="#contact"
-                class="ml-4 px-6 py-2 border border-accent text-accent rounded-full hover:bg-accent hover:text-background transition-all"
-                data-magnetic
-                >Contact</a
-              >
-            </div>
+        <!-- Hamburger (visible only on mobile) -->
+        <button id="menu-toggle" class="md:hidden text-white text-3xl">
+          &#9776;
+          <!-- Unicode hamburger ☰ -->
+        </button>
 
-            <!-- Hamburger Icon (Mobile) -->
-            <div class="md:hidden">
-              <button id="menu-toggle" class="z-50" aria-label="Toggle Menu">
-                <svg
-                  class="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+        <!-- Desktop Nav Links (hidden on mobile) -->
+        <div class="hidden md:flex space-x-6 text-white">
+          <a href="#about" class="hover:text-accent">About</a>
+          <a href="#skills" class="hover:text-accent">Skills</a>
+          <a href="#projects" class="hover:text-accent">Projects</a>
+          <a href="#experience" class="hover:text-accent">Experience</a>
+          <a href="#contact" class="hover:text-accent">Contact</a>
         </div>
       </nav>
     </header>
 
-    <div
-      id="mobile-menu"
-      class="fixed inset-0 bg-[#010204] text-white p-8 transform translate-x-full transition-transform duration-300 ease-in-out z-40 md:hidden"
-    >
-      <button id="menu-close" class="absolute top-6 right-6 text-2xl">✕</button>
-      <ul class="space-y-6 text-xl mt-20">
-        <li><a href="#skills" class="hover:text-primary">Skills</a></li>
-        <li><a href="#projects" class="hover:text-primary">Projects</a></li>
-        <li><a href="#experience" class="hover:text-primary">Experience</a></li>
-        <li><a href="#contact" class="hover:text-primary">Contact</a></li>
-      </ul>
-    </div>
+ <div
+  id="mobile-menu"
+  class="fixed top-0 right-0 h-full w-64 bg-[#0a0a0a] text-white transform translate-x-full transition-transform duration-300 z-50 md:hidden"
+>
+  <div class="flex justify-between items-center px-4 py-4 border-b border-white/10">
+    <div class="text-xl font-bold">Menu</div>
+    <button id="menu-close" class="text-3xl font-bold">
+      &times; <!-- ✕ icon -->
+    </button>
+  </div>
+  <div class="flex flex-col space-y-4 px-6 py-6 text-lg">
+    <a href="#about" class="hover:text-accent">About</a>
+    <a href="#skills" class="hover:text-accent">Skills</a>
+    <a href="#projects" class="hover:text-accent">Projects</a>
+    <a href="#experience" class="hover:text-accent">Experience</a>
+    <a href="#contact" class="hover:text-accent">Contact</a>
+  </div>
+</div>
 
     <main class="pt-24">
       <section
@@ -1128,17 +1106,19 @@
           e.preventDefault();
           alert("Message sent! [Note: backend not connected yet]");
         });
-      const menuToggle = document.getElementById("menu-toggle");
-      const mobileMenu = document.getElementById("mobile-menu");
+     const menuToggle = document.getElementById("menu-toggle");
+const mobileMenu = document.getElementById("mobile-menu");
+const menuClose = document.getElementById("menu-close");
 
-      menuToggle.addEventListener("click", () => {
-        mobileMenu.classList.toggle("translate-x-full");
-        mobileMenu.classList.toggle("translate-x-0");
-      });
-      document.getElementById("menu-close").addEventListener("click", () => {
-        mobileMenu.classList.add("translate-x-full");
-        mobileMenu.classList.remove("translate-x-0");
-      });
+menuToggle.addEventListener("click", () => {
+  mobileMenu.classList.remove("translate-x-full");
+  mobileMenu.classList.add("translate-x-0");
+});
+
+menuClose.addEventListener("click", () => {
+  mobileMenu.classList.add("translate-x-full");
+  mobileMenu.classList.remove("translate-x-0");
+});
       // Close menu on link click
       document.querySelectorAll("#mobile-menu a").forEach((link) => {
         link.addEventListener("click", () => {
