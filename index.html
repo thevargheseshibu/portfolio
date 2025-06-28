@@ -640,7 +640,9 @@
                 window.scrollTo({ top: 0, behavior: "auto" });
               });
 
-              requestAnimationFrame(mainLogic);
+             requestAnimationFrame(() => {
+      mainLogic(); // run after second frame
+    });
             }, 800);
             return;
           }
@@ -676,7 +678,9 @@
           requestAnimationFrame(() => {
             window.scrollTo({ top: 0, behavior: "auto" });
           });
-          mainLogic(); // 🔁 Skip intro, directly launch main logic
+         requestAnimationFrame(() => {
+      mainLogic(); // run after second frame
+    }); // 🔁 Skip intro, directly launch main logic
         } else {
           playIntroThenLoad(); // 🔁 Play intro, then launch main logic
         }
