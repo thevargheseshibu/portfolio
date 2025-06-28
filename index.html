@@ -293,6 +293,42 @@
           box-shadow: 0 0 25px var(--color-accent);
         }
       }
+
+      .timeline-content {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+        backdrop-filter: blur(5px);
+      }
+
+      @media (max-width: 768px) {
+        .timeline::before,
+        .timeline-line-progress {
+          left: 20px;
+        }
+
+        .timeline-item {
+          width: 100%;
+          padding-left: 70px;
+          padding-right: 20px;
+          left: 0 !important;
+          margin-bottom: 2rem;
+        }
+
+        .timeline-item::after {
+          left: 20px;
+        }
+
+        .timeline-content {
+          text-align: left;
+        }
+      }
+
+      @media (max-width: 768px) {
+        main {
+          padding-top: 4.5rem; /* or whatever your navbar height is */
+        }
+      }
     </style>
 
     <script>
@@ -328,16 +364,19 @@
     <header>
       <nav
         id="navbar"
-        class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        class="fixed top-0 left-0 right-0 bg-black/60 backdrop-blur-md shadow-lg z-50"
       >
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-24">
+            <!-- Logo -->
             <a
               href="#hero"
-              class="text-3xl font-bold font-display"
+              class="text-3xl font-bold font-display text-white"
               data-magnetic
               >VS</a
             >
+
+            <!-- Desktop Menu -->
             <div class="hidden md:flex items-center space-x-8">
               <a
                 href="#skills"
@@ -364,15 +403,47 @@
                 >Contact</a
               >
             </div>
+
+            <!-- Hamburger Icon (Mobile) -->
+            <div class="md:hidden">
+              <button id="menu-toggle" class="z-50" aria-label="Toggle Menu">
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
     </header>
 
-    <main>
+    <div
+      id="mobile-menu"
+      class="fixed inset-0 bg-[#010204] text-white p-8 transform translate-x-full transition-transform duration-300 ease-in-out z-40 md:hidden"
+    >
+      <button id="menu-close" class="absolute top-6 right-6 text-2xl">✕</button>
+      <ul class="space-y-6 text-xl mt-20">
+        <li><a href="#skills" class="hover:text-primary">Skills</a></li>
+        <li><a href="#projects" class="hover:text-primary">Projects</a></li>
+        <li><a href="#experience" class="hover:text-primary">Experience</a></li>
+        <li><a href="#contact" class="hover:text-primary">Contact</a></li>
+      </ul>
+    </div>
+
+    <main class="pt-24">
       <section
         id="hero"
-        class="h-screen w-full flex flex-col justify-center items-center text-center -mt-24"
+        class="h-screen w-full flex flex-col justify-center items-center text-center"
       >
         <h1
           class="text-7xl md:text-9xl font-extrabold font-display decode-text-wrapper"
@@ -681,14 +752,23 @@
           el.innerHTML = `<div class="h-64 bg-gray-900 overflow-hidden"><img src="${project.imgSrc}" alt="${project.title}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" /></div><div class="p-8 flex flex-col flex-grow"><h3 class="text-3xl font-bold font-display">${project.title}</h3><p class="text-secondary font-semibold mt-2">${project.client}</p><p class="text-secondary my-4 flex-grow">${project.description}</p><div class="flex flex-wrap gap-2 mt-auto">${techHtml}</div></div>`;
           projectsGrid.appendChild(el);
         });
-
         const experienceTimeline = document.getElementById(
           "experience-timeline"
         );
+
         DATA.experience.forEach((job, i) => {
           const el = document.createElement("div");
-          el.className = "timeline-item";
-          el.innerHTML = `<div class="timeline-content reveal"><h3 class="text-xl font-bold font-display">${job.role}</h3><p class="text-accent font-semibold">${job.company}</p><p class="text-secondary text-sm mt-1 mb-3 font-mono">${job.period}</p><p class="text-secondary text-sm">${job.description}</p></div>`;
+          el.className = `timeline-item reveal`;
+
+          // Add responsive wrapper
+          el.innerHTML = `
+    <div class="timeline-content p-6 bg-white/5 rounded-xl shadow-md transition-all duration-500 ease-out">
+      <h3 class="text-xl font-bold font-display">${job.role}</h3>
+      <p class="text-accent font-semibold">${job.company}</p>
+      <p class="text-secondary text-sm mt-1 mb-3 font-mono">${job.period}</p>
+      <p class="text-secondary text-sm leading-relaxed">${job.description}</p>
+    </div>`;
+
           experienceTimeline.appendChild(el);
         });
 
@@ -749,6 +829,29 @@
           }
         });
 
+        function applyMouseVortex(particle) {
+          let dx = mouse.x - particle.x;
+          let dy = mouse.y - particle.y;
+          let distance = Math.sqrt(dx * dx + dy * dy);
+          const isMobile = window.innerWidth < 640;
+          if (distance < 200) {
+            const angle = Math.atan2(dy, dx);
+            const strength = (100 - distance) / 100;
+            const vortexStrength = isMobile ? 0.15 : 0.5; // 🔽 reduce on mobile
+            particle.velocity.x +=
+              Math.cos(angle + Math.PI / 2) * strength * vortexStrength;
+            particle.velocity.y +=
+              Math.sin(angle + Math.PI / 2) * strength * vortexStrength;
+          }
+        }
+
+        function getParticleCountByScreen() {
+          const width = window.innerWidth;
+          if (width < 640) return 50; // Mobile
+          else if (width < 1024) return 400; // Tablet / Laptop
+          else return 600; // Large screens
+        }
+
         class Particle {
           constructor(x, y, size, color, velocity, friction = 0.99) {
             this.x = x || Math.random() * canvas.width;
@@ -756,9 +859,10 @@
             this.size = size || Math.random() * 2 + 1;
             this.color =
               color || `rgba(100, 116, 139, ${Math.random() * 0.4 + 0.1})`;
+            const isMobile = window.innerWidth < 640;
             this.velocity = velocity || {
-              x: (Math.random() - 0.5) * 0.1,
-              y: (Math.random() - 0.5) * 0.1,
+              x: (Math.random() - 0.5) * (isMobile ? 0.03 : 0.1),
+              y: (Math.random() - 0.5) * (isMobile ? 0.03 : 0.1),
             };
             this.alpha = 1;
             this.friction = friction;
@@ -805,18 +909,11 @@
           }
         }
 
-        function applyMouseVortex(particle) {
-          let dx = mouse.x - particle.x;
-          let dy = mouse.y - particle.y;
-          let distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < 200) {
-            const angle = Math.atan2(dy, dx);
-            const strength = (100 - distance) / 100;
-            particle.velocity.x +=
-              Math.cos(angle + Math.PI / 2) * strength * 0.5;
-            particle.velocity.y +=
-              Math.sin(angle + Math.PI / 2) * strength * 0.5;
-          }
+        function getParticleCountByScreen() {
+          const width = window.innerWidth;
+          if (width < 640) return 100; // Mobile
+          else if (width < 1024) return 400; // Tablet/Laptop
+          else return 600; // Desktop
         }
 
         function initParticles() {
@@ -853,8 +950,8 @@
             [0, 246, 255],
             [0, 246, 255],
           ];
-
-          for (let i = 0; i < 400; i++) {
+          const particleCount = getParticleCountByScreen();
+          for (let i = 0; i < particleCount; i++) {
             const color =
               colorVariants[Math.floor(Math.random() * colorVariants.length)];
             particles.push(
@@ -924,7 +1021,9 @@
             m.draw();
           });
 
-          if (particles.length < 250 && Math.random() > 0.8) {
+          const maxParticles = getParticleCountByScreen();
+
+          if (particles.length < maxParticles && Math.random() > 0.8) {
             particles.push(
               new Particle(
                 null,
@@ -1029,6 +1128,24 @@
           e.preventDefault();
           alert("Message sent! [Note: backend not connected yet]");
         });
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+
+      menuToggle.addEventListener("click", () => {
+        mobileMenu.classList.toggle("translate-x-full");
+        mobileMenu.classList.toggle("translate-x-0");
+      });
+      document.getElementById("menu-close").addEventListener("click", () => {
+        mobileMenu.classList.add("translate-x-full");
+        mobileMenu.classList.remove("translate-x-0");
+      });
+      // Close menu on link click
+      document.querySelectorAll("#mobile-menu a").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenu.classList.add("translate-x-full");
+          mobileMenu.classList.remove("translate-x-0");
+        });
+      });
     </script>
   </body>
 </html>
