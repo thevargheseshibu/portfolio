@@ -6,7 +6,7 @@
     <title>Varghese Shibu | Architect of Digital Realities</title>
 
     <!-- Tailwind CSS (Essential for rapid, responsive layout) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+ 
 
     <!-- FONTS: The Definitive Selection for an Ethereal, High-Tech Feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -688,6 +688,7 @@
 
       function mainLogic() {
         console.log("main");
+        alert("Tailwind check:", getComputedStyle(document.body).getPropertyValue('--tw-bg-opacity'))
         window.scrollTo(0, 0);
 
         const DATA = {
@@ -1180,7 +1181,7 @@
             synth.triggerRelease(Tone.now() + 0.1)
           );
         });
-      console.log("main1")
+
         // Mouse Parallax
         document.addEventListener("mousemove", (e) => {
           const centerX = window.innerWidth / 2;
