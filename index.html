@@ -6,7 +6,7 @@
     <title>Varghese Shibu | Architect of Digital Realities</title>
 
     <!-- Tailwind CSS (Essential for rapid, responsive layout) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="output.css" />
 
     <!-- FONTS: The Definitive Selection for an Ethereal, High-Tech Feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -641,7 +641,7 @@
               });
 
              requestAnimationFrame(() => {
-   setTimeout(()=>{  mainLogic();},30000)
+   setTimeout(()=>{  mainLogic();},1000)
     });
             }, 800);
             return;
@@ -679,7 +679,7 @@
             window.scrollTo({ top: 0, behavior: "auto" });
           });
          requestAnimationFrame(() => {
-            setTimeout(()=>{  mainLogic();},30000)
+            setTimeout(()=>{  mainLogic();},1000)
      // run after second frame
     }); // 🔁 Skip intro, directly launch main logic
         } else {
@@ -688,8 +688,7 @@
       });
 
       function mainLogic() {
-        console.log("main",getComputedStyle(document.body).getPropertyValue('--tw-text-opacity'));
-       alert(getComputedStyle(document.body).getPropertyValue('--tw-text-opacity'));
+        
         window.scrollTo(0, 0);
 
         const DATA = {
