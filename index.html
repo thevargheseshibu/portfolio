@@ -39,6 +39,10 @@
         font-family: "Inter", sans-serif;
         overflow-x: hidden;
       }
+
+      .force-black {
+        color: black;
+      }
       .font-display {
         font-family: "Sora", sans-serif;
         letter-spacing: -0.03em;
@@ -84,6 +88,59 @@
         );
       }
 
+      #intro-text {
+        font-size: 1.5rem;
+        color: #00f6ff;
+        font-family: "Sora", monospace;
+        text-align: center;
+        text-shadow: 0 0 10px #00f6ff, 0 0 20px #00f6ff;
+        background: repeating-linear-gradient(
+          180deg,
+          rgba(0, 246, 255, 0.08),
+          rgba(0, 246, 255, 0.08) 1px,
+          transparent 1px,
+          transparent 4px
+        );
+        animation: flicker 2s infinite;
+      }
+
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.9;
+        }
+        60% {
+          opacity: 1;
+        }
+        70% {
+          opacity: 0.8;
+        }
+        80% {
+          opacity: 1;
+        }
+      }
+
+      #intro-overlay::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, #00f6ff22, transparent 70%);
+        animation: pulseBg 3s infinite ease-in-out;
+      }
+
+      @keyframes pulseBg {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.6;
+        }
+      }
+
       /* --- Animations & UI Elements --- */
       .reveal {
         opacity: 0;
@@ -102,6 +159,43 @@
         backdrop-filter: blur(16px);
         border-bottom: 1px solid rgba(0, 246, 255, 0.1);
       } */
+
+      #tron-grid {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: 40px 40px;
+        background-image: linear-gradient(
+            to right,
+            rgba(0, 246, 255, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(0, 246, 255, 0.05) 1px,
+            transparent 1px
+          );
+        z-index: -3;
+        pointer-events: none;
+        transition: background-image 0.3s ease;
+      }
+
+      body:hover #tron-grid {
+        background-image: linear-gradient(
+            to right,
+            rgba(255, 215, 0, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(
+            to bottom,
+            rgba(255, 215, 0, 0.1) 1px,
+            transparent 1px
+          );
+        background-size: 40px 40px;
+        filter: drop-shadow(0 0 10px gold);
+      }
 
       .glass-card {
         background: linear-gradient(
@@ -382,6 +476,8 @@
     </script>
   </head>
   <body class="opacity-0 overflow-hidden transition-opacity duration-700">
+    <div id="tron-grid"></div>
+
     <div id="intro-overlay">
       <pre id="intro-text"></pre>
     </div>
@@ -517,26 +613,6 @@
         </div>
       </section>
 
-      <section
-        id="contact"
-        class="py-40 text-center parallax-item"
-        data-depth="0.4"
-      >
-        <div class="max-w-3xl mx-auto px-4">
-          <h2 class="reveal text-6xl md:text-8xl font-bold font-display">
-            Let's Create Together
-          </h2>
-          <div class="reveal mt-12" style="--delay: 0.2s">
-            <a
-              href="mailto:thevargheseshibu@gmail.com"
-              class="text-2xl inline-block px-12 py-5 bg-accent text-background font-bold rounded-full hover:scale-105 transition-all"
-              data-magnetic
-              >Get In Touch</a
-            >
-          </div>
-        </div>
-      </section>
-
       <section id="contact" class="py-40 text-center">
         <div class="max-w-3xl mx-auto px-4">
           <h2 class="reveal text-6xl md:text-8xl font-bold font-display">
@@ -546,6 +622,8 @@
           <!-- ✨ Contact Form -->
           <form
             id="contact-form"
+            method="POST"
+            novalidate
             class="glass-card mt-12 p-10 space-y-6 text-left reveal"
           >
             <div>
@@ -554,7 +632,7 @@
                 type="text"
                 name="name"
                 required
-                class="w-full p-3 rounded bg-background text-primary border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                class="w-full force-black p-3 rounded bg-background text-primary border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
             <div>
@@ -563,7 +641,7 @@
                 type="email"
                 name="email"
                 required
-                class="w-full p-3 rounded bg-background text-primary border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                class="w-full force-black p-3 rounded bg-background text-secondary border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
               />
             </div>
             <div>
@@ -572,7 +650,8 @@
                 name="message"
                 rows="5"
                 required
-                class="w-full p-3 rounded bg-background text-primary border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent"
+                class="w-full p-3 force-black rounded bg-white text-black border border-accent/10 focus:outline-none focus:ring-2 focus:ring-accent placeholder:text-gray-400"
+                placeholder="Your message"
               ></textarea>
             </div>
             <div class="text-right">
@@ -592,7 +671,7 @@
       <div
         class="max-w-7xl mx-auto flex justify-between items-center text-secondary"
       >
-        <p>&copy; 2025 Varghese Shibu</p>
+        <p>&copy;Varghese Shibu</p>
         <div class="flex space-x-6">
           <a
             href="https://github.com/thevargheseshibu"
@@ -607,6 +686,13 @@
             data-magnetic
             >LinkedIn</a
           >
+          <a
+            href="https://www.instagram.com/thewargiz/"
+            target="_blank"
+            class="hover:text-primary"
+            data-magnetic
+            >Instagram</a
+          >
         </div>
       </div>
     </footer>
@@ -619,11 +705,11 @@
         const introTextEl = document.getElementById("intro-text");
 
         const introLines = [
-          "Initializing digital realm...",
-          "Syncing neural interfaces...",
-          "Decrypting cinematic identity...",
-          "Welcome, Varghese Shibu.",
-        ];
+         "Booting up stellar archives...",
+"Aligning creative constellations...",
+"Optimizing visual interface pipeline...",
+  "Welcome to the digital grid"
+          ];
 
         let currentLine = 0;
 
@@ -640,9 +726,11 @@
                 window.scrollTo({ top: 0, behavior: "auto" });
               });
 
-             requestAnimationFrame(() => {
-   setTimeout(()=>{  mainLogic();},1000)
-    });
+              requestAnimationFrame(() => {
+                setTimeout(() => {
+                  mainLogic();
+                }, 1000);
+              });
             }, 800);
             return;
           }
@@ -678,17 +766,18 @@
           requestAnimationFrame(() => {
             window.scrollTo({ top: 0, behavior: "auto" });
           });
-         requestAnimationFrame(() => {
-            setTimeout(()=>{  mainLogic();},1000)
-     // run after second frame
-    }); // 🔁 Skip intro, directly launch main logic
+          requestAnimationFrame(() => {
+            setTimeout(() => {
+              mainLogic();
+            }, 1000);
+            // run after second frame
+          }); // 🔁 Skip intro, directly launch main logic
         } else {
           playIntroThenLoad(); // 🔁 Play intro, then launch main logic
         }
       });
 
       function mainLogic() {
-        
         window.scrollTo(0, 0);
 
         const DATA = {
@@ -698,6 +787,7 @@
             "Next.js",
             "Node.js",
             "MongoDB",
+            "CSS",
             "Blockchain",
             "Unity",
             "TypeScript",
@@ -710,62 +800,114 @@
 
           projects: [
             {
-              title: "Payment SDK Platform",
-              client: "Lyca Productions",
+              title: "Multi-Gateway Payment Rendering SDK",
+              client: "Apexx",
               description:
-                "Architected a cross-platform SDK for in-app purchases, streamlining transactions.",
-              tech: ["React Native", "Node.js", "Stripe"],
-              imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Lyca+SDK",
+                "Engineered a payment SDK supporting PayPal, Google Pay, Apple Pay, and Volt, enabling secure multi-gateway integration with PCI-DSS compliance.",
+              tech: ["JavaScript", "Node.js", "Web3.js"],
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=Apexx",
             },
             {
-              title: "Global Travel Portal",
+              title: "Web-Based Cargo Operations Platform",
               client: "Korean Air",
               description:
-                "Led the front-end revamp of a high-traffic booking engine, improving performance and UX.",
-              tech: ["Next.js", "GraphQL", "MongoDB"],
+                "Developed a full-stack cargo management platform using React and Node.js to streamline shipment tracking and enhance airline logistics.",
+              tech: ["React", "Node.js", "MongoDB"],
               imgSrc:
                 "https://placehold.co/600x400/010204/00f6ff?text=Korean+Air",
             },
             {
-              title: "Decentralized Donation App",
-              client: "Kerala Blockchain Academy",
+              title: "Mobile Cargo Management Application",
+              client: "Korean Air",
               description:
-                "Developed a transparent organ donation tracking system using blockchain technology.",
-              tech: ["Solidity", "React", "Ethers.js"],
-              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=dApp",
+                "Rebuilt a mission-critical mobile cargo app with React Native, improving performance, reliability, and deployment efficiency via Jenkins CI/CD.",
+              tech: ["React Native", "Node.js", "MongoDB"],
+              imgSrc:
+                "https://placehold.co/600x400/010204/00f6ff?text=Korean+Air",
             },
             {
-              title: "Dynamic Content Editor",
-              client: "Panasonic",
+              title: "Centralized IT Monitoring Dashboard",
+              client: "Japan Airlines",
               description:
-                "Built a dynamic, component-based content management tool for internal platforms.",
+                "Built a real-time system health monitoring dashboard with React and MongoDB to visualize infrastructure performance for critical airline systems.",
+              tech: ["React", "Node.js", "MongoDB"],
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=JAL",
+            },
+            {
+              title: "Decentralized Organ Donation Platform",
+              client: "Kerala Blockchain Academy",
+              description:
+                "Built an Ethereum-based platform to securely manage organ donation and matching using Solidity smart contracts and Web3 integration.",
+              tech: ["Solidity", "Node.js", "Truffle", "Web3.js"],
+              imgSrc:
+                "https://placehold.co/600x400/010204/00f6ff?text=DONORG+dApp",
+            },
+            {
+              title: "Secure Personal Thermal Comfort App",
+              client: "Thermal Lab",
+              description:
+                "Architected a blockchain-secured Android app for tracking thermal preferences using TEE for privacy and Firebase for backend integration.",
+              tech: ["Android", "Blockchain", "Firebase"],
+              imgSrc:
+                "https://placehold.co/600x400/010204/00f6ff?text=Panasonic",
+            },
+            {
+              title: "BIM-Integrated Thermal Simulation Platform",
+              client: "Thermal Lab",
+              description:
+                "Engineered a platform to analyze human thermal comfort in BIM environments using sensors, React UI, and blockchain for secure data.",
+              tech: ["React", "Node.js", "MySQL", "Blockchain", "Unity"],
+              imgSrc:
+                "https://placehold.co/600x400/010204/00f6ff?text=Panasonic",
+            },
+            {
+              title: "Digital News & CMS Platform",
+              client: "Lyca Productions",
+              description:
+                "Built a high-performance news platform using Next.js with SSR and a custom CMS, enabling optimized SEO and rapid content publishing.",
+              tech: ["Next.js", "Node.js", "CMS"],
+              imgSrc:
+                "https://placehold.co/600x400/010204/00f6ff?text=Lyca+Productions",
+            },
+            {
+              title: "Online Memorial & Tribute Platform",
+              client: "Ownstory",
+              description:
+                "Created a full-featured obituary platform with a custom rich text editor and dynamic frontend tightly integrated with backend APIs.",
               tech: ["React", "TypeScript", "Node.js"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Panasonic+CMS",
+                "https://placehold.co/600x400/010204/00f6ff?text=Ownstory",
+            },
+            {
+              title: "Integrated Travel Booking E-commerce Portal",
+              client: "Skypak Japan",
+              description:
+                "Developed a full-stack travel booking site for flights and hotels, integrating VeriTrans for secure transactions and scalable e-commerce architecture.",
+              tech: ["React", "Node.js", "VeriTrans"],
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=Skypak",
             },
           ],
           experience: [
             {
               role: "Lead Solution Engineer",
-              company: "Lyca Productions",
-              period: "2021 - Present",
+              company: "Cloudberry360",
+              period: "Jan 2024 – Present",
               description:
-                "Leading the design and implementation of core digital platforms and payment systems.",
+                "Driving architecture and development of payment SDKs, rich text editors, and JSON-driven dynamic frontends. Mentoring developers and leading project delivery for clients like Lyca Productions and Apexx Global.",
             },
             {
-              role: "Senior Full-Stack Developer",
-              company: "Korean Air (via IBS)",
-              period: "2019 - 2021",
+              role: "Lead Solution Engineer",
+              company: "IBS Software",
+              period: "Nov 2021 – Jan 2024",
               description:
-                "Key developer on the team modernizing the global travel and booking web portal.",
+                "Led mobile and web application development for Korean Air, Skypak, and JAL. Delivered scalable systems using React Native, Node.js, and MongoDB, while implementing CI/CD pipelines and optimizing performance.",
             },
             {
-              role: "Software Engineer",
-              company: "Panasonic",
-              period: "2018 - 2019",
+              role: "Software Engineer / Junior Architect",
+              company: "Panasonic Global R&D Lab",
+              period: "May 2019 – Sept 2021",
               description:
-                "Developed internal tools and dynamic content editors for enterprise-level applications.",
+                "Architected secure blockchain-integrated Android and web platforms for thermal simulation and assistant systems. Conducted advanced R&D in Blockchain, Unity, and AI for clients across Japan, Singapore, and India.",
             },
           ],
         };
@@ -871,6 +1013,22 @@
           mouse.x = e.clientX;
           mouse.y = e.clientY;
         });
+
+        document.addEventListener("mousemove", (e) => {
+          const grid = document.getElementById("tron-grid");
+          grid.style.backgroundImage = `
+    linear-gradient(to right, rgba(255, 215, 0, 0.12) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 215, 0, 0.12) 1px, transparent 1px)
+  `;
+          clearTimeout(grid._glowTimeout);
+          grid._glowTimeout = setTimeout(() => {
+            grid.style.backgroundImage = `
+      linear-gradient(to right, rgba(0, 246, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 246, 255, 0.05) 1px, transparent 1px)
+    `;
+          }, 300);
+        });
+
         window.addEventListener("click", () => {
           const burstCount = 30; // more sparks
           for (let i = 0; i < burstCount; i++) {
@@ -1204,10 +1362,46 @@
 
         document
           .getElementById("contact-form")
-          .addEventListener("submit", (e) => {
+          .addEventListener("submit", async function (e) {
             e.preventDefault();
-            alert("Message sent! [Note: backend not connected yet]");
+
+            const form = e.target;
+            const formData = new FormData(form);
+
+            // Use FormSubmit endpoint via fetch
+            try {
+              const res = await fetch(
+                "https://formsubmit.co/ajax/thevargheseshibu@gmail.com",
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: formData.get("name"),
+                    email: formData.get("email"),
+                    message: formData.get("message"),
+                  }),
+                }
+              );
+
+              const data = await res.json();
+
+              if (res.ok) {
+                alert("✅ Message sent successfully!");
+                form.reset();
+              } else {
+                alert(
+                  "❌ Failed: " + (data.message || "Unknown error"),
+                  "error"
+                );
+              }
+            } catch (err) {
+              alert("❌ Network error", "error");
+            }
           });
+
         const menuToggle = document.getElementById("menu-toggle");
         const mobileMenu = document.getElementById("mobile-menu");
         const menuClose = document.getElementById("menu-close");
@@ -1231,10 +1425,10 @@
 
         document.addEventListener("DOMContentLoaded", () => {
           const introLines = [
-            "Initializing digital realm...",
-            "Syncing neural interfaces...",
-            "Decrypting cinematic identity...",
-            "Welcome, Varghese Shibu.",
+            "Booting up stellar archives...",
+            "Aligning creative constellations...",
+            "Optimizing visual interface pipeline...",
+            "Welcome to the digital grid",
           ];
 
           const introTextEl = document.getElementById("intro-text");
