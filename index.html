@@ -47,6 +47,140 @@
         font-family: "Sora", sans-serif;
         letter-spacing: -0.03em;
       }
+  /* --- Contact --- */
+
+  #contact-ep {
+  position: relative;
+  background-color: #000;
+  color: #00ffe0;
+  padding: 100px 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.contact-grid {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-image:
+    linear-gradient(#00ffe020 1px, transparent 1px),
+    linear-gradient(90deg, #00ffe020 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: 0;
+  animation: tronFlicker 4s infinite alternate;
+}
+
+@keyframes tronFlicker {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.5; }
+}
+
+.contact-container {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: auto;
+  background: rgba(0, 0, 0, 0.85);
+  border: 2px solid #00ffe0;
+  box-shadow: 0 0 20px #00ffe088;
+  padding: 40px;
+  border-radius: 12px;
+}
+
+.contact-container h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  letter-spacing: 2px;
+}
+
+.contact-item {
+  font-size: 20px;
+  margin: 20px 0;
+}
+
+.contact-item a {
+  color: #00ffe0;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contact-item a:hover {
+  color: gold;
+}
+
+    
+  /* --- Carousel --- */
+      .carousel-wrapper {
+        background: #000010;
+        padding: 60px 0;
+        text-align: center;
+        font-family: "Orbitron", sans-serif;
+      }
+
+      .neon-heading {
+        font-size: 2.2rem;
+        color: #0ff;
+        text-shadow: 0 0 12px #0ff, 0 0 24px #0ff;
+        margin-bottom: 30px;
+      }
+
+      .carousel {
+        position: relative;
+        overflow: hidden;
+        max-width: 80%;
+        margin: auto;
+        border: 2px solid #00f6ff;
+        border-radius: 10px;
+        box-shadow: 0 0 20px #0ff, 0 0 60px #0ff;
+      }
+
+      .carousel-track-container {
+        overflow: hidden;
+        width: 100%;
+      }
+
+      .carousel-track {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+      }
+
+      .carousel-track img {
+        flex: 0 0 33.3333%;
+        max-width: 33.3333%;
+        padding: 10px;
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+        box-shadow: 0 0 15px #0ff;
+      }
+
+      .carousel-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: transparent;
+        border: 2px solid #0ff;
+        color: #0ff;
+        font-size: 2rem;
+        padding: 5px 15px;
+        cursor: pointer;
+        z-index: 10;
+        border-radius: 5px;
+        box-shadow: 0 0 10px #0ff;
+      }
+
+      .carousel-btn:hover {
+        color: gold;
+        border-color: gold;
+        box-shadow: 0 0 15px gold;
+      }
+
+      .carousel-btn.prev {
+        left: 0;
+      }
+
+      .carousel-btn.next {
+        right: 0;
+      }
 
       /* --- FINAL CURSOR: The "Digital Wisp" --- */
       #cursor-wisp {
@@ -613,6 +747,47 @@
         </div>
       </section>
 
+      <section class="carousel-wrapper">
+        <h2 class="neon-heading">Honors & Certificates</h2>
+        <div class="carousel">
+          <button class="carousel-btn prev">‹</button>
+          <div class="carousel-track-container">
+            <div class="carousel-track">
+              <img
+                src="../public/honors/ Shibu_Award.png"
+                alt="Certificate 1"
+              />
+              <img
+                src="../public/honors/Varghese_Shibu_Team_Champ.png"
+                alt="Certificate 2"
+              />
+              <img
+                src="../public/honors/Varghese_Shibu_Team_Champ2023.png"
+                alt="Certificate 3"
+              />
+              <img
+                src="../public/honors/Varghese Shibu_Award.png"
+                alt="Certificate 3"
+              />
+               <img
+                src="../public/certi/20180607_211638.jpg"
+                alt="Certificate 1"
+              />
+              <img src="../public/certi/download (1).png" alt="Certificate 2" />
+              <img src="../public/certi/download (2).png" alt="Certificate 3" />
+              <img src="../public/certi/download.png" alt="Certificate 3" />
+              <img
+                src="../public/certi/Screenshot 2025-07-01 120215.jpg"
+                alt="Certificate 3"
+              /><img src="../public/certi/unnamed.jpg" alt="Certificate 3" />
+            </div>
+          </div>
+          <button class="carousel-btn next">›</button>
+        </div>
+      </section>
+
+     
+
       <section id="contact" class="py-40 text-center">
         <div class="max-w-3xl mx-auto px-4">
           <h2 class="reveal text-6xl md:text-8xl font-bold font-display">
@@ -667,6 +842,20 @@
       </section>
     </main>
 
+    <section id="contact-ep">
+  <div class="contact-grid"></div>
+  <div class="contact-container">
+    <h2>Contact Me</h2>
+    <div class="contact-item">
+       <a href="mailto:thevargheseshibu@gmail.com">thevargheseshibu@gmail.com</a>
+    </div>
+    <div class="contact-item">
+     <a href="tel:+919496229341">+91 9496229341</a>
+    </div>
+  </div>
+</section>
+
+
     <footer class="py-12 px-4">
       <div
         class="max-w-7xl mx-auto flex justify-between items-center text-secondary"
@@ -705,11 +894,11 @@
         const introTextEl = document.getElementById("intro-text");
 
         const introLines = [
-         "Booting up stellar archives...",
-"Aligning creative constellations...",
-"Optimizing visual interface pipeline...",
-  "Welcome to the digital grid"
-          ];
+          "Booting up stellar archives...",
+          "Aligning creative constellations...",
+          "Optimizing visual interface pipeline...",
+          "Welcome to the digital grid",
+        ];
 
         let currentLine = 0;
 
@@ -801,33 +990,33 @@
           projects: [
             {
               title: "Multi-Gateway Payment Rendering SDK",
-              client: "Apexx",
+              client: "APEXX GLOBAL",
               description:
                 "Engineered a payment SDK supporting PayPal, Google Pay, Apple Pay, and Volt, enabling secure multi-gateway integration with PCI-DSS compliance.",
               tech: ["JavaScript", "Node.js", "Web3.js"],
-              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=Apexx",
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=APEXX",
             },
             {
               title: "Web-Based Cargo Operations Platform",
-              client: "Korean Air",
+              client: "KOREAN AIR",
               description:
                 "Developed a full-stack cargo management platform using React and Node.js to streamline shipment tracking and enhance airline logistics.",
               tech: ["React", "Node.js", "MongoDB"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Korean+Air",
+                "https://placehold.co/600x400/010204/00f6ff?text=KOREAN+AIR",
             },
             {
               title: "Mobile Cargo Management Application",
-              client: "Korean Air",
+              client: "KOREAN AIR",
               description:
                 "Rebuilt a mission-critical mobile cargo app with React Native, improving performance, reliability, and deployment efficiency via Jenkins CI/CD.",
               tech: ["React Native", "Node.js", "MongoDB"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Korean+Air",
+                "https://placehold.co/600x400/010204/00f6ff?text=KOREAN+AIR",
             },
             {
               title: "Centralized IT Monitoring Dashboard",
-              client: "Japan Airlines",
+              client: "JAL AIRLINES",
               description:
                 "Built a real-time system health monitoring dashboard with React and MongoDB to visualize infrastructure performance for critical airline systems.",
               tech: ["React", "Node.js", "MongoDB"],
@@ -835,56 +1024,54 @@
             },
             {
               title: "Decentralized Organ Donation Platform",
-              client: "Kerala Blockchain Academy",
+              client: "KERALA BLOCKCHAIN ACADEMY",
               description:
                 "Built an Ethereum-based platform to securely manage organ donation and matching using Solidity smart contracts and Web3 integration.",
               tech: ["Solidity", "Node.js", "Truffle", "Web3.js"],
-              imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=DONORG+dApp",
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=KBA",
             },
             {
               title: "Secure Personal Thermal Comfort App",
-              client: "Thermal Lab",
+              client: "PANASONIC",
               description:
                 "Architected a blockchain-secured Android app for tracking thermal preferences using TEE for privacy and Firebase for backend integration.",
               tech: ["Android", "Blockchain", "Firebase"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Panasonic",
+                "https://placehold.co/600x400/010204/00f6ff?text=PANASONIC",
             },
             {
               title: "BIM-Integrated Thermal Simulation Platform",
-              client: "Thermal Lab",
+              client: "PANASONIC",
               description:
                 "Engineered a platform to analyze human thermal comfort in BIM environments using sensors, React UI, and blockchain for secure data.",
               tech: ["React", "Node.js", "MySQL", "Blockchain", "Unity"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Panasonic",
+                "https://placehold.co/600x400/010204/00f6ff?text=PANASONIC",
             },
             {
               title: "Digital News & CMS Platform",
-              client: "Lyca Productions",
+              client: "LYCA PRODUCTIONS",
               description:
                 "Built a high-performance news platform using Next.js with SSR and a custom CMS, enabling optimized SEO and rapid content publishing.",
               tech: ["Next.js", "Node.js", "CMS"],
-              imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Lyca+Productions",
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=LYCA",
             },
             {
               title: "Online Memorial & Tribute Platform",
-              client: "Ownstory",
+              client: "OWNSTORY",
               description:
                 "Created a full-featured obituary platform with a custom rich text editor and dynamic frontend tightly integrated with backend APIs.",
               tech: ["React", "TypeScript", "Node.js"],
               imgSrc:
-                "https://placehold.co/600x400/010204/00f6ff?text=Ownstory",
+                "https://placehold.co/600x400/010204/00f6ff?text=OWNSTORY",
             },
             {
               title: "Integrated Travel Booking E-commerce Portal",
-              client: "Skypak Japan",
+              client: "SKYPAK",
               description:
                 "Developed a full-stack travel booking site for flights and hotels, integrating VeriTrans for secure transactions and scalable e-commerce architecture.",
               tech: ["React", "Node.js", "VeriTrans"],
-              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=Skypak",
+              imgSrc: "https://placehold.co/600x400/010204/00f6ff?text=SKYPAK",
             },
           ],
           experience: [
@@ -1017,15 +1204,15 @@
         document.addEventListener("mousemove", (e) => {
           const grid = document.getElementById("tron-grid");
           grid.style.backgroundImage = `
-    linear-gradient(to right, rgba(255, 215, 0, 0.12) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 215, 0, 0.12) 1px, transparent 1px)
-  `;
+                    linear-gradient(to right, rgba(255, 215, 0, 0.12) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(255, 215, 0, 0.12) 1px, transparent 1px)
+                  `;
           clearTimeout(grid._glowTimeout);
           grid._glowTimeout = setTimeout(() => {
             grid.style.backgroundImage = `
-      linear-gradient(to right, rgba(0, 246, 255, 0.05) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(0, 246, 255, 0.05) 1px, transparent 1px)
-    `;
+                      linear-gradient(to right, rgba(0, 246, 255, 0.05) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(0, 246, 255, 0.05) 1px, transparent 1px)
+                    `;
           }, 300);
         });
 
@@ -1068,6 +1255,75 @@
           }
         });
 
+        (function () {
+          const wrapper = document.querySelector(".carousel-wrapper");
+          const track = wrapper.querySelector(".carousel-track");
+          const slides = Array.from(track.children);
+          const btnPrev = wrapper.querySelector(".carousel-btn.prev");
+          const btnNext = wrapper.querySelector(".carousel-btn.next");
+
+          const visibleCount = 3;
+          const autoSlideInterval = 4000;
+          const slideWidth = slides[0].getBoundingClientRect().width + 20;
+          let index = visibleCount;
+
+          let allSlides;
+
+          // Only clone if slides > visibleCount
+          if (slides.length > visibleCount) {
+            const startClones = slides
+              .slice(0, visibleCount)
+              .map((s) => s.cloneNode(true));
+            const endClones = slides
+              .slice(-visibleCount)
+              .map((s) => s.cloneNode(true));
+            startClones.forEach((clone) => track.appendChild(clone));
+            endClones.forEach((clone) =>
+              track.insertBefore(clone, track.firstChild)
+            );
+            allSlides = Array.from(track.children);
+          } else {
+            allSlides = slides;
+            index = 0;
+          }
+
+          function moveTo(change) {
+            index += change;
+            track.style.transition = "transform 0.5s ease-in-out";
+            track.style.transform = `translateX(-${index * slideWidth}px)`;
+
+            track.addEventListener(
+              "transitionend",
+              () => {
+                if (slides.length > visibleCount) {
+                  if (index >= allSlides.length - visibleCount) {
+                    index = visibleCount;
+                    track.style.transition = "none";
+                    track.style.transform = `translateX(-${
+                      index * slideWidth
+                    }px)`;
+                  } else if (index < visibleCount) {
+                    index = allSlides.length - 2 * visibleCount;
+                    track.style.transition = "none";
+                    track.style.transform = `translateX(-${
+                      index * slideWidth
+                    }px)`;
+                  }
+                }
+              },
+              { once: true }
+            );
+          }
+
+          track.style.transform = `translateX(-${index * slideWidth}px)`;
+
+          btnNext.addEventListener("click", () => moveTo(1));
+          btnPrev.addEventListener("click", () => moveTo(-1));
+
+          if (autoSlideInterval && slides.length > visibleCount) {
+            setInterval(() => moveTo(1), autoSlideInterval);
+          }
+        })();
         function applyMouseVortex(particle) {
           let dx = mouse.x - particle.x;
           let dy = mouse.y - particle.y;
